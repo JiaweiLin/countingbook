@@ -17,3 +17,19 @@ jobs:
         - id: s03
           uses: actions/checkout@v5
         - run: echo "after" && ls -l
+        - id: s04
+          #install Angular CLI and install packages form package.json
+          run: npm i -g @angular/cli && npm ci
+        - id: s05
+          #build the application
+          run: ng build
+        - id: s06
+          run: ls -l dist/countingbook/browser
+        - id: s07
+          uses: nwtgck/actions-netlify@v3.0
+          with: 
+            publish-dir: dist/countingbook/browser
+            production-deploy: true
+          env:
+            netlify-auth-token: ${{secrets.NETLIFY_AUTH_TOKEN}}
+            netlify-site-id: ${{secrets.NETLIFY_SITE_ID}}
